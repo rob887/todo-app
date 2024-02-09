@@ -38,3 +38,15 @@ def delete(todo_id):
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("my_view.home"))
+
+@my_view.route('/complete/<int:task_id>', methods=['POST'])
+def complete_task(task_id):
+    try:
+        todo = Todo.query.get(task_id)
+        todo.complete = True
+        db.session.commit()
+        return redirect(url_for('my_view.home'))
+    except:
+        message = "Error completing task."
+        return redirect(url_for('my_view.home', message=message))
+

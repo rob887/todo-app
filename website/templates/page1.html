@@ -23,14 +23,17 @@
                 <button type="submit">Add a Task</button>
             </div>
         </form>
+        <P>The task number and task is:</P>
         <p>Date and time of your entry is: {{ datetime }}</p>
+        <p>Date and time of your edit is: {{ datetime }}</p>
         <hr>
 
         {% for todo in todo_list %}
         <div class="task" id="task{{ todo.id }}">
             <p>Task Number {{ todo.id }}: {{ todo.task }} | Task Complete? <span id="complete{{ todo.id }}">{{ todo.complete }}</span></p>
             <p>Date Created: {{ todo.date_created }}</p>
-            <button onclick="toggleCompletion({{ todo.id }})">Toggle Completion</button>
+            <p>Edit Created: {{ todo.Edit_created }}</p>
+            <button onclick="toggleCompletion({{ todo.id }})">Edit Completion</button>
             <button onclick="deleteTask({{ todo.id }})">Delete Task</button>
             <button onclick="completeTask({{ todo.id }})">Complete Task</button>
         </div>
@@ -53,7 +56,10 @@
         }
 
         function completeTask(id) {
-            
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/complete/" + id, true);
+            xhr.send();
+
         }
     </script>
 </body>
