@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>To Do List</h1>
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+        <hr>
+        <form action="/add" method="post">
+            <div>
+                <label>Todo task</label>
+                <input type="text" name="task" placeholder="Enter a Task">
+                <button type="submit">Add a Task</button>
+            </div>
+        </form>
+        <p>Date and time of your entry is: {{ datetime }}</p>
+        <hr>
+
+        {% for todo in todo_list %}
+        <div class="task" id="task{{ todo.id }}">
+            <p>Task Number {{ todo.id }}: {{ todo.task }} | Task Complete? <span id="complete{{ todo.id }}">{{ todo.complete }}</span></p>
+            <p>Date Created: {{ todo.date_created }}</p>
+            <button onclick="toggleCompletion({{ todo.id }})">Toggle Completion</button>
+            <button onclick="deleteTask({{ todo.id }})">Delete Task</button>
+            <button onclick="completeTask({{ todo.id }})">Complete Task</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleCompletion(id) {
+            var completeSpan = document.getElementById("complete" + id);
+            var currentCompletion = completeSpan.textContent.trim();
+            var newCompletion = currentCompletion === "True" ? "False" : "True";
+            completeSpan.textContent = newCompletion;
+            
+        }
+
+        function deleteTask(id) {
+            var taskDiv = document.getElementById("task" + id);
+            taskDiv.remove();
+            
+        }
+
+        function completeTask(id) {
+            
+        }
+    </script>
+</body>
+
+</html>
